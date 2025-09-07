@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 
 import RegistrationForm from './pages/RegistrationForm';
-import Login from './pages/Login';
+import LoginForm from './pages/LoginForm';
 import Vegetables from './pages/Vegetables';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
@@ -24,7 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/vegetables" />} />
           <Route path="/register" element={<RegistrationForm />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<LoginForm />} />
 
           {/* Protected Routes */}
           <Route

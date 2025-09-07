@@ -71,6 +71,7 @@ const RegistrationForm: React.FC = () => {
 
     try {
       // Simulate API call
+      console.log('Registering user with data:', formData);
       const response = await registerUser(formData);
       alert('Account created successfully!');
       // Simulate successful registration
