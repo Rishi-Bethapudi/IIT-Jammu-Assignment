@@ -1,13 +1,24 @@
-// src/utils/apiService.ts
+// src/services/apiServices.ts
 import apiClient from "./apiClient";
 
+interface RegisterFormData {
+  name: string;
+  email: string;
+  password: string;
+}
+
+interface LoginPayload {
+  email: string;
+  password: string;
+}
+
 // --- Auth APIs ---
-export const registerUser = async (formData: any) => {
+export const registerUser = async (formData: RegisterFormData) => {
   const response = await apiClient.post("/auth/register", formData);
   return response.data;
 };
 
-export const loginUser = async (payload:any) => {
+export const loginUser = async (payload: LoginPayload) => {
     console.log('API URL:', import.meta.env.VITE_API_BASE_URL);
 console.log('Payload:', payload);
   const response = await apiClient.post("/auth/login", payload, {
