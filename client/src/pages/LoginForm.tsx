@@ -16,6 +16,7 @@ import { setAuth } from '@/store/authSlice';
 import type { AppDispatch } from '@/store';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { validateField } from '../components/login/validation';
+import { loginUser } from '@/services/apiServices';
 import type {
   LoginFormData,
   ValidationErrors,
@@ -37,6 +38,7 @@ const LoginForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [submitError, setSubmitError] = useState<string>('');
+
   useEffect(() => {
     if (location.state?.email || location.state?.password) {
       setFormData({
@@ -47,6 +49,7 @@ const LoginForm: React.FC = () => {
       });
     }
   }, [location.state]);
+
   const handleInputChange = (
     field: keyof LoginFormData,
     value: string | boolean
@@ -123,12 +126,10 @@ const LoginForm: React.FC = () => {
         password: formData.password,
         rememberMe: formData.rememberMe,
       };
+      const response = await loginUser(payload);
+      // const response = await axios.post('/api/auth/login', );
 
-      const response = await axios.post('/api/auth/login', payload, {
-        withCredentials: true,
-      });
-
-      const { user, token } = response.data;
+      const { user, token } = response;
 
       if (token) {
         localStorage.setItem('authToken', token);

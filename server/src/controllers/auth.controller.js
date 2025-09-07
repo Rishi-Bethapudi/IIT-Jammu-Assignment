@@ -17,6 +17,7 @@ const registerUser = asyncHandler(async (req, res) => {
     address,
     city,
     pincode,
+    agreesToTerms,
     agreesToMarketing,
     role,
   } = req.body;
@@ -40,6 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
     address,
     city,
     pincode,
+    agreesToTerms,
     agreesToMarketing: agreesToMarketing || false,
     role: userRole, // default role
   });

@@ -7,8 +7,13 @@ export const registerUser = async (formData: any) => {
   return response.data;
 };
 
-export const loginUser = async (email: string, password: string) => {
-  const response = await apiClient.post("/auth/login", { email, password });
+export const loginUser = async (payload:any) => {
+    console.log('API URL:', import.meta.env.VITE_API_BASE_URL);
+console.log('Payload:', payload);
+  const response = await apiClient.post("/auth/login", payload, {
+        withCredentials: true,
+      });
+      console.log('Login Response:', response);
   return response.data;
 };
 

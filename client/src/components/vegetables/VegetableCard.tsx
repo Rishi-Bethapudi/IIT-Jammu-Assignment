@@ -1,25 +1,26 @@
-import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
 import { SquareMinus, ListPlus } from 'lucide-react';
-import { Vegetable } from './types';
+import type { Vegetable } from './types';
 
-interface Props {
+interface VegetableCardProps {
   vegetable: Vegetable;
   quantity: number;
-  onQuantityChange: (id: string, quantity: number) => void;
-  onAddToCart: (veg: Vegetable) => void;
-  adding: boolean;
+  addingToCart: boolean;
+  onQuantityChange: (vegetableId: string, quantity: number) => void;
+  onAddToCart: (vegetable: Vegetable) => void;
 }
 
-export default function VegetableCard({
+const VegetableCard: React.FC<VegetableCardProps> = ({
   vegetable,
   quantity,
+  addingToCart,
   onQuantityChange,
   onAddToCart,
-  adding,
-}: Props) {
+}) => {
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-shadow duration-200">
       <div className="aspect-square relative overflow-hidden">
@@ -82,13 +83,15 @@ export default function VegetableCard({
 
           <Button
             onClick={() => onAddToCart(vegetable)}
-            disabled={adding}
+            disabled={addingToCart}
             className="flex-1"
           >
-            {adding ? 'Adding...' : 'Add to Cart'}
+            {addingToCart ? 'Adding...' : 'Add to Cart'}
           </Button>
         </div>
       </CardContent>
     </Card>
   );
-}
+};
+
+export default VegetableCard;

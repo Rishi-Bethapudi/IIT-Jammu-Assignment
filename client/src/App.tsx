@@ -8,7 +8,7 @@ import {
 
 import RegistrationForm from './pages/RegistrationForm';
 import LoginForm from './pages/LoginForm';
-import Vegetables from './pages/Vegetables';
+import VegetablesPage from './pages/VegetablesPage';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Header from './components/Header';
@@ -31,7 +31,7 @@ function App() {
             path="/vegetables"
             element={
               // <ProtectedRoute>
-              <Vegetables />
+              <VegetablesPage />
               // </ProtectedRoute>
             }
           />

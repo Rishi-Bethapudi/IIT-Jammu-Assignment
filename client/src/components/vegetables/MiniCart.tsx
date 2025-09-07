@@ -1,30 +1,26 @@
+import React from 'react';
 import { ShoppingCart } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import type { CartItem } from './types';
 
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
-interface Props {
+interface MiniCartProps {
   cartItems: CartItem[];
   totalItems: number;
   totalPrice: number;
   onViewCart: () => void;
+  className?: string;
 }
 
-export default function MiniCart({
+const MiniCart: React.FC<MiniCartProps> = ({
   cartItems,
   totalItems,
   totalPrice,
   onViewCart,
-}: Props) {
+  className = '',
+}) => {
   return (
-    <div className="bg-card border rounded-lg p-4">
+    <div className={`bg-card border rounded-lg p-4 ${className}`}>
       <div className="flex items-center gap-2 mb-4">
         <ShoppingCart className="w-5 h-5" />
         <h3 className="font-semibold">Cart ({totalItems})</h3>
@@ -71,4 +67,6 @@ export default function MiniCart({
       )}
     </div>
   );
-}
+};
+
+export default MiniCart;

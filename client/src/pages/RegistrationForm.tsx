@@ -9,8 +9,10 @@ import type {
   ValidationErrors,
 } from '../components/register/types';
 import { registerUser } from '@/services/apiServices';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationForm: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<RegisterFormData>({
     firstName: '',
     lastName: '',
@@ -78,13 +80,12 @@ const RegistrationForm: React.FC = () => {
       alert(
         'Account created successfully! Welcome to our vegetable marketplace.'
       );
-      if (formData.email && formData.password) {
-        localStorage.setItem('prefillEmail', formData.email);
-        localStorage.setItem('prefillPassword', formData.password);
-      }
-
-      // Redirect to login
-      window.location.href = '/login';
+      navigate('/login', {
+        state: {
+          email: response.email || formData.email,
+          password: formData.password,
+        },
+      });
       // Reset form
       setFormData({
         firstName: '',
