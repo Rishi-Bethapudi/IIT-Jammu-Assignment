@@ -6,7 +6,7 @@ import {
   Navigate,
 } from 'react-router-dom';
 
-import Register from './pages/Register';
+import RegistrationForm from './pages/RegistrationForm';
 import Login from './pages/Login';
 import Vegetables from './pages/Vegetables';
 import Cart from './pages/Cart';
@@ -23,7 +23,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Navigate to="/vegetables" />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<Login />} />
 
           {/* Protected Routes */}
