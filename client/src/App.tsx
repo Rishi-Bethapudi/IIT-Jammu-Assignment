@@ -29,9 +29,9 @@ function App() {
           <Route
             path="/vegetables"
             element={
-              // <ProtectedRoute>
-              <VegetablesPage />
-              // </ProtectedRoute>
+              <ProtectedRoute>
+                <VegetablesPage />
+              </ProtectedRoute>
             }
           />
           <Route

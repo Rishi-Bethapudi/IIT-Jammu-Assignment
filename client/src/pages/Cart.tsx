@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import type { RootState } from '@/store';
+import React, { Suspense } from 'react';
 import CartEmpty from '@/components/cart/CartEmpty';
 import CartItem from '@/components/cart/CartItem';
-import CartSummary from '@/components/cart/CartSummary';
+const CartSummary = React.lazy(() => import('@/components/cart/CartSummary'));
 import { ShoppingCart } from 'lucide-react';
 import { updateCartItemQuantity, removeFromCart } from '@/store/cartSlice';
 import type { CartItem as CartItemType } from '../components/cart/types';
@@ -74,16 +75,18 @@ const Cart = () => {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <CartSummary
-              subtotal={subtotal}
-              tax={tax}
-              total={total}
-              itemCount={items.length}
-              isAuthenticated={isAuthenticated}
-              onCheckout={handleCheckout}
-              onSaveCart={handleSaveCart}
-              isSaving={false}
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <CartSummary
+                subtotal={subtotal}
+                tax={tax}
+                total={total}
+                itemCount={items.length}
+                isAuthenticated={isAuthenticated}
+                onCheckout={handleCheckout}
+                onSaveCart={handleSaveCart}
+                isSaving={false}
+              />
+            </Suspense>
           </div>
         </div>
       </div>
