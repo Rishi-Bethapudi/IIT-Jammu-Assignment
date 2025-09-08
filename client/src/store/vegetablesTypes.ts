@@ -1,12 +1,11 @@
 export interface Vegetable {
-  id: string;
+  _id: string;
   name: string;
+  description: string;
   price: number;
-  image: string;
   stock: number;
-  unit: string;
-  lowStock?: boolean;
-  // add other fields as needed
+  category?: string;
+  images: { url: string; public_id?: string }[];
 }
 
 export interface VegetablesState {

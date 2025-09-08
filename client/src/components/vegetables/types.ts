@@ -1,10 +1,30 @@
-export interface Vegetable {
+// /components/vegetable/types.ts
+
+export interface VegetableImage {
+  url: string;
+  public_id: string;
+  _id: string;
   id: string;
+}
+
+export interface Vegetable {
+  _id: string;                // MongoDB ID
+  id: string;                 // same as _id, sometimes used in frontend
   name: string;
   description: string;
   price: number;
-  image: string;
-  stock?: number;
+  discount: number;
+  finalPrice: number;
+  stock: number;
+  unit: string;                // e.g. "kg"
+  images: VegetableImage[];    // array of image objects
+  category: string;            // e.g. "Vegetables"
+  isAvailable: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+
+  // frontend-only (derived props)
   lowStock?: boolean;
 }
 
@@ -13,7 +33,7 @@ export interface CartItem {
   name: string;
   price: number;
   quantity: number;
-  image: string;
+  image: string; // usually the first image url
 }
 
 export interface VegetablesState {

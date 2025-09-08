@@ -1,3 +1,4 @@
+// /components/register/types.ts
 export interface RegisterFormData {
   firstName: string;
   lastName: string;

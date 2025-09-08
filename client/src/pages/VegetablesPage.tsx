@@ -102,11 +102,11 @@ const VegetablesPage: React.FC = () => {
       // Optimistic update
       dispatch(
         addToCart({
-          id: vegetable.id,
+          _id: vegetable._id,
           name: vegetable.name,
           price: vegetable.price,
           quantity,
-          image: vegetable.image,
+          images: (vegetable as any).image || vegetable.images?.[0]?.url || '',
         })
       );
 
@@ -131,12 +131,15 @@ const VegetablesPage: React.FC = () => {
   };
 
   const getTotalItems = () => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
+    return cartItems.reduce(
+      (total: number, item: CartItem) => total + item.quantity,
+      0
+    );
   };
 
-  const getTotalPrice = () => {
+  const getTotalPrice = (): number => {
     return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
+      (total: number, item: CartItem) => total + item.price * item.quantity,
       0
     );
   };

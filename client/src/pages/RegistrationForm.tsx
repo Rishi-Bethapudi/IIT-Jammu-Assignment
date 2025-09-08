@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UserRound, TriangleAlert, BadgeCheck, Check } from 'lucide-react';
+import { UserRound, TriangleAlert, BadgeCheck } from 'lucide-react';
 import RegistrationStep1 from '../components/register/RegistrationStep1';
 import RegistrationStep2 from '../components/register/RegistrationStep2';
 import RegistrationStep3 from '../components/register/RegistrationStep3';

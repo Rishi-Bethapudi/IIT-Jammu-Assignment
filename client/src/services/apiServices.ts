@@ -2,9 +2,19 @@
 import apiClient from "./apiClient";
 
 interface RegisterFormData {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
+  confirmPassword: string;
+  gender: string;
+  phone: string;
+  dateOfBirth: string;
+  address: string;
+  city: string;
+  pincode: string;
+  agreesToTerms: boolean;
+  agreesToMarketing: boolean;
 }
 
 interface LoginPayload {
@@ -19,8 +29,6 @@ export const registerUser = async (formData: RegisterFormData) => {
 };
 
 export const loginUser = async (payload: LoginPayload) => {
-    console.log('API URL:', import.meta.env.VITE_API_BASE_URL);
-console.log('Payload:', payload);
   const response = await apiClient.post("/auth/login", payload, {
         withCredentials: true,
       });

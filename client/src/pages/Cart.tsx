@@ -22,8 +22,8 @@ const Cart = () => {
   const tax = subtotal * 0.08;
   const total = subtotal + tax;
 
-  const handleQuantityChange = (id: string, newQuantity: number) => {
-    dispatch(updateCartItemQuantity({ id, quantity: newQuantity }));
+  const handleQuantityChange = (_id: string, newQuantity: number) => {
+    dispatch(updateCartItemQuantity({ _id, quantity: newQuantity }));
   };
 
   const handleRemove = (id: string) => {
@@ -62,7 +62,7 @@ const Cart = () => {
               <div className="space-y-4">
                 {items.map((item: CartItemType) => (
                   <CartItem
-                    key={item.id}
+                    key={item._id}
                     item={item}
                     onChangeQuantity={handleQuantityChange}
                     onRemove={handleRemove}

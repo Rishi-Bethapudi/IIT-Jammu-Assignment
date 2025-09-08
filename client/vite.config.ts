@@ -4,11 +4,11 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
 export default defineConfig({
-  root: 'client',
+  root: '.',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      '@': path.resolve(process.cwd(), 'client/src')
+      '@': path.resolve(process.cwd(), 'src')
     }
   }
 })

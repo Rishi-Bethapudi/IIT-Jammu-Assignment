@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import { toast } from 'sonner';
 import { LogIn, TriangleAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';

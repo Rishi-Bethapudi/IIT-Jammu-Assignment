@@ -11,7 +11,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-// Import slices
+// Import slices (fixed imports, all in same folder or adjust paths)
 import authReducer from './authSlice';
 import vegetablesReducer from './vegetablesSlice';
 import cartReducer from './cartSlice';
@@ -27,7 +27,7 @@ const authPersistConfig = {
 const cartPersistConfig = {
   key: 'cart',
   storage,
-  whitelist: ['items', 'total'],
+  whitelist: ['items'],
 };
 
 // Create persisted reducers
