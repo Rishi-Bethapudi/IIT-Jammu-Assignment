@@ -18,6 +18,7 @@ export interface Vegetable {
   stock: number;
   unit: string;                // e.g. "kg"
   images: VegetableImage[];    // array of image objects
+  image?: string;
   category: string;            // e.g. "Vegetables"
   isAvailable: boolean;
   createdAt: string;
@@ -29,6 +30,7 @@ export interface Vegetable {
 }
 
 export interface CartItem {
+  _id: string;
   id: string;
   name: string;
   price: number;

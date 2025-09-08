@@ -1,10 +1,11 @@
 // /components/cart/types.ts
 export interface CartItem {
   _id: string;
+  id: string;
   name: string;
   price: number;
   quantity: number;
-  images: { url: string }[];
+    image: string;
   stock?: number;
   unit?: string;
 }

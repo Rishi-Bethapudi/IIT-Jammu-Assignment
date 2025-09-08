@@ -26,8 +26,7 @@ const VegetableCard: React.FC<VegetableCardProps> = ({
       <div className="aspect-square relative overflow-hidden">
         <img
           src={
-            vegetable.images[0]?.url ||
-            'https://via.placeholder.com/300?text=No+Image'
+            vegetable.image || 'https://via.placeholder.com/300?text=No+Image'
           }
           alt={vegetable.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"

@@ -1,10 +1,13 @@
+// src/App.tsx
+import { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { setAuth } from './store/authSlice';
 import RegistrationForm from './pages/RegistrationForm';
 import LoginForm from './pages/LoginForm';
 import VegetablesPage from './pages/VegetablesPage';
@@ -12,10 +15,22 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Header from './components/Header';
 import ProtectedRoute from './components/ProtectedRoute';
-
 import { Toaster } from 'sonner';
 
 function App() {
+  const dispatch = useDispatch();
+
+  // Restore auth from localStorage on app load
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    const userString = localStorage.getItem('authUser');
+
+    if (token && userString) {
+      const user = JSON.parse(userString);
+      dispatch(setAuth({ token, user }));
+    }
+  }, [dispatch]);
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-100">
@@ -37,9 +52,9 @@ function App() {
           <Route
             path="/cart"
             element={
-              <ProtectedRoute>
-                <Cart />
-              </ProtectedRoute>
+              // <ProtectedRoute>
+              <Cart />
+              // </ProtectedRoute>
             }
           />
           <Route

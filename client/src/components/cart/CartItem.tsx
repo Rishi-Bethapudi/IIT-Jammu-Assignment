@@ -16,20 +16,20 @@ const CartItem: React.FC<CartItemProps> = ({
 
   const handleDecrease = () => {
     if (item.quantity > 1 && !updating) {
-      onChangeQuantity(item._id, item.quantity - 1);
+      onChangeQuantity(item.id, item.quantity - 1);
     }
   };
 
   const handleIncrease = () => {
     if (!updating) {
-      onChangeQuantity(item._id, item.quantity + 1);
+      onChangeQuantity(item.id, item.quantity + 1);
     }
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseInt(e.target.value, 10);
     if (!Number.isNaN(val) && val >= 1 && !updating) {
-      onChangeQuantity(item._id, val);
+      onChangeQuantity(item.id, val);
     }
   };
 
@@ -43,7 +43,7 @@ const CartItem: React.FC<CartItemProps> = ({
               src={
                 imageError
                   ? 'https://via.placeholder.com/80x80?text=No+Image'
-                  : item.images[0]?.url
+                  : item.image
               }
               alt={item.name}
               className="w-full h-full object-cover"
@@ -110,7 +110,7 @@ const CartItem: React.FC<CartItemProps> = ({
                 variant="ghost"
                 size="sm"
                 className="text-red-500 hover:text-red-600 hover:bg-red-50 p-2"
-                onClick={() => onRemove(item._id)}
+                onClick={() => onRemove(item.id)}
                 disabled={removing}
               >
                 {removing ? 'Removing…' : <Trash2 className="w-4 h-4" />}

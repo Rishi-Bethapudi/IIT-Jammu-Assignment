@@ -10,17 +10,31 @@ connectDB();
 const app = express();
 
 // Enable CORS for all origins
+const allowedOrigins = [
+  'http://localhost:5173', // your local dev frontend
+  'http://localhost:5174', // if using Vite's preview port
+  'https://iit-jammu-assignment.vercel.app', // your deployed frontend
+];
+
 app.use(
   cors({
-    origin: 'http://localhost:5173', // allow all origins
-    credentials: true, // allow cookies to be sent
+    origin: [
+      'http://localhost:5173', // your local dev frontend
+      'http://localhost:5174', // if using Vite's preview port
+      'https://iit-jammu-assignment.vercel.app', // your deployed frontend
+      'https://ht9t3tq8-5000.inc1.devtunnels.ms',
+    ],
+    credentials: true,
   })
 );
-
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use((req, res, next) => {
+  console.log('Cookies received:', req.cookies);
+  next();
+});
 
 // Routes
 app.use('/api/auth', require('./routes/auth.routes'));

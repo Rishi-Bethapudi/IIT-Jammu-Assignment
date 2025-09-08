@@ -125,17 +125,15 @@ const LoginForm: React.FC = () => {
         password: formData.password,
         rememberMe: formData.rememberMe,
       };
-      const response = await loginUser(payload);
-      // const response = await axios.post('/api/auth/login', );
 
-      const { user, token } = response;
+      const { user } = await loginUser(payload);
 
-      if (token) {
-        localStorage.setItem('authToken', token);
-        dispatch(setAuth({ token, user }));
-      } else {
-        dispatch(setAuth({ token: 'cookie_set', user }));
-      }
+      // ✅ Store userId + full user in localStorage
+      localStorage.setItem('userId', user._id);
+      localStorage.setItem('authUser', JSON.stringify(user));
+
+      // Update Redux state
+      dispatch(setAuth({ token: 'cookie_set', user }));
 
       toast.success('Welcome back! Logged in successfully.');
       navigate('/vegetables');

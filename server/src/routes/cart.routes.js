@@ -8,8 +8,9 @@ const {
 } = require('../controllers/cart.controller');
 
 // Protected routes
-router.get('/', protect, getCart);
-router.post('/', protect, addToCart);
-router.delete('/:vegetableId', protect, removeFromCart);
+router.get('/', getCart);
+router.post('/', addToCart);
+
+router.delete('/cart/:id', removeFromCart);
 
 module.exports = router;

@@ -21,7 +21,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Menu, ShoppingCart } from 'lucide-react';
 import { toast } from 'sonner';
-import { clearAuth } from '@/store/authSlice';
+import { logout } from '@/store/authSlice';
 import type { RootState, AppDispatch } from '../store';
 
 export default function Header() {
@@ -35,7 +35,7 @@ export default function Header() {
   const auth = useSelector((state: RootState) => state.auth);
   const cart = useSelector((state: RootState) => state.cart);
 
-  // Calculate cart totals
+  // Cart totals
   const totalItems =
     cart.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
   const totalPrice =
@@ -43,20 +43,15 @@ export default function Header() {
 
   useEffect(() => {
     setIsClient(true);
-    // Simulate loading state
+    // small loading delay for UI
     const timer = setTimeout(() => setIsLoading(false), 100);
     return () => clearTimeout(timer);
   }, []);
 
   const handleLogout = () => {
     try {
-      // Clear from localStorage
       localStorage.removeItem('authToken');
-      localStorage.removeItem('auth_token');
-
-      // Dispatch logout action to Redux
-      dispatch(clearAuth());
-
+      dispatch(logout());
       toast.success('Logged out successfully');
     } catch (error) {
       console.error('Logout error:', error);
@@ -64,11 +59,8 @@ export default function Header() {
     }
   };
 
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  // Navigation links based on auth state
   const navLinks = auth.isAuthenticated
     ? [
         { href: '/vegetables', label: 'Vegetables' },
@@ -80,7 +72,7 @@ export default function Header() {
         { href: '/login', label: 'Login' },
       ];
 
-  // Loading/Error state handling
+  // Loading state
   if (!isClient || isLoading) {
     return (
       <header className="sticky top-0 z-50 w-full border-b bg-card shadow-sm">
@@ -92,13 +84,11 @@ export default function Header() {
               </div>
               <span className="text-lg font-semibold">Veggie Shop</span>
             </div>
-
             <div className="hidden md:flex items-center space-x-6">
               <Skeleton className="h-4 w-20" />
               <Skeleton className="h-4 w-16" />
               <Skeleton className="h-4 w-20" />
             </div>
-
             <div className="flex items-center space-x-4">
               <Skeleton className="h-8 w-8 rounded-full" />
               <Skeleton className="h-4 w-16" />
@@ -113,7 +103,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-card shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo and Brand */}
+          {/* Logo */}
           <Link
             to="/"
             className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
@@ -139,9 +129,9 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Right Side - Auth and Cart */}
+          {/* Right side */}
           <div className="flex items-center space-x-4">
-            {/* Cart Icon with Badge */}
+            {/* Cart */}
             {auth.isAuthenticated && (
               <Link to="/cart" className="relative">
                 <Button variant="ghost" size="sm" className="relative p-2">
@@ -162,7 +152,7 @@ export default function Header() {
               </Link>
             )}
 
-            {/* Auth Area */}
+            {/* Auth Dropdown */}
             {auth.isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -181,14 +171,9 @@ export default function Header() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuItem asChild>
-                    <Link to="/profile" className="cursor-pointer">
-                      Profile
-                    </Link>
+                    <Link to="/profile">Profile</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={handleLogout}
-                    className="cursor-pointer"
-                  >
+                  <DropdownMenuItem onClick={handleLogout}>
                     Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -208,7 +193,7 @@ export default function Header() {
               </div>
             )}
 
-            {/* Mobile Menu */}
+            {/* Mobile menu */}
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { addToCart as addToCartService } from '@/services/apiServices';
 import { toast } from 'sonner';
 import {
   Sheet,
@@ -21,6 +21,7 @@ import LoadingState from '../components/vegetables/LoadingState';
 import ErrorState from '../components/vegetables/ErrorState';
 import EmptyState from '../components/vegetables/EmptyState';
 import { getVegetables } from '@/services/apiServices';
+
 const VegetablesPage: React.FC = () => {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [addingToCart, setAddingToCart] = useState<Record<string, boolean>>({});
@@ -34,7 +35,7 @@ const VegetablesPage: React.FC = () => {
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  // const memoizedVegetables = useMemo(() => vegetables, [vegetables]);
   useEffect(() => {
     fetchVegetables();
   }, []);
@@ -45,22 +46,24 @@ const VegetablesPage: React.FC = () => {
       setError(null);
       const response = await getVegetables();
 
-      // Check the actual response structure
-      console.log('API Response:', response);
-
       // The vegetables data might be in response.data directly or nested
       const vegetablesData = response.data || response;
 
       // Transform the data to match your expected format
       const transformedVegetables = vegetablesData.map((veg: any) => ({
-        id: veg._id || veg.id, // Use _id from API as id
+        _id: veg._id,
+        id: veg._id, // frontend id
         name: veg.name,
         description: veg.description,
         price: veg.finalPrice || veg.price,
-        image: veg.images?.[0]?.url || '', // Use first image
+        image: veg.images?.[0]?.url || '', // first image as string
         stock: veg.stock,
-        lowStock: veg.stock < 20, // Example threshold for low stock
+        lowStock: veg.stock < 20,
         unit: veg.unit,
+        images: veg.images || [],
+        category: veg.category,
+        isAvailable: veg.isAvailable,
+        finalPrice: veg.finalPrice || veg.price,
       }));
 
       dispatch(setVegetables(transformedVegetables));
@@ -99,27 +102,20 @@ const VegetablesPage: React.FC = () => {
     try {
       const quantity = quantities[vegetable.id] || 1;
 
-      // Optimistic update
+      // Optimistic Redux update
       dispatch(
         addToCart({
+          id: vegetable.id,
           _id: vegetable._id,
           name: vegetable.name,
-          price: vegetable.price,
+          price: vegetable.finalPrice || vegetable.price,
           quantity,
-          images: (vegetable as any).image || vegetable.images?.[0]?.url || '',
+          image: vegetable.image || vegetable.images?.[0]?.url || '',
         })
       );
 
-      // Optional: Sync with backend
-      try {
-        await axios.post('/api/cart', {
-          vegetableId: vegetable.id,
-          quantity,
-        });
-      } catch (serverError) {
-        console.warn('Failed to sync cart with server:', serverError);
-        // Could implement rollback here if needed
-      }
+      // Sync with backend using service
+      await addToCartService(vegetable.id, quantity);
 
       toast.success(`Added ${quantity}x ${vegetable.name} to cart`);
     } catch (err) {
